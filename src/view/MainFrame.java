@@ -36,7 +36,11 @@ public class MainFrame extends JFrame {
         addButton.setFont(new Font("SansSerif", Font.BOLD, 14));
         addButton.setPreferredSize(new Dimension(180, 35));
         addButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Implementar.");
+            ProductFormDialog dialog = new ProductFormDialog(this, productService);
+            dialog.setVisible(true);
+            if (dialog.isSaved()) {
+                ((ProductTableModel) productTable.getModel()).setProducts(productService.get());
+            }
         });
         topPanel.add(addButton, BorderLayout.EAST);
 
