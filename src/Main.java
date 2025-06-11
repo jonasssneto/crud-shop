@@ -1,19 +1,15 @@
-import model.ProductModel;
+import javax.swing.*;
 import services.ProductService;
 import util.Database;
+import view.MainFrame;
 
 public class Main {
-    public static void main(String[] args) {
-        Database db = new Database();
-        ProductService ps = new ProductService(db);
-
-        ProductModel product = new ProductModel();
-        product.setId(1);
-        product.setName("Caneta");
-        product.setPrice_in_cents(250);
-        product.setQuantity(100);
-
-        ps.save(product);
-
+    public static void main(String[] args) {  
+         SwingUtilities.invokeLater(() -> {
+             Database db = new Database();
+             ProductService ps = new ProductService(db);
+             MainFrame frame = new MainFrame(ps);
+             frame.setVisible(true);
+         });
     }
 }
