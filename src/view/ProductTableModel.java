@@ -1,8 +1,8 @@
 package view;
 
-import model.ProductModel;
-import javax.swing.table.AbstractTableModel;
 import java.util.List;
+import javax.swing.table.AbstractTableModel;
+import model.ProductModel;
 import util.money;
 
 public class ProductTableModel extends AbstractTableModel {
@@ -20,7 +20,6 @@ public class ProductTableModel extends AbstractTableModel {
             default -> String.class;
         };
     }
-
 
     @Override
     public int getRowCount() {

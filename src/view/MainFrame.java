@@ -3,6 +3,7 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import services.ProductService;
 
 public class MainFrame extends JFrame {
@@ -23,17 +24,17 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBorder(new EmptyBorder(15, 25, 15, 25));
+        topPanel.setBorder(Theme.WINDOW_PADDING);
 
         JLabel titleLabel = new JLabel("Sistema de Gestão de Produtos");
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+        titleLabel.setFont(Theme.TITLE_FONT);
         topPanel.add(titleLabel, BorderLayout.WEST);
 
         JButton addButton = new JButton("Adicionar Produto");
         addButton.setFocusPainted(false);
-        addButton.setBackground(new Color(59, 89, 182));
-        addButton.setForeground(Color.WHITE);
-        addButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        addButton.setBackground(Theme.PRIMARY_COLOR);
+        addButton.setForeground(Theme.CONTRAST_COLOR);
+        addButton.setFont(Theme.BUTTON_FONT);
         addButton.setPreferredSize(new Dimension(180, 35));
         addButton.addActionListener(e -> {
             ProductFormDialog dialog = new ProductFormDialog(this, productService);
@@ -46,17 +47,29 @@ public class MainFrame extends JFrame {
 
         add(topPanel, BorderLayout.NORTH);
 
-        // Tabela com produtos
         productTable = new JTable(new ProductTableModel(productService.get()));
         productTable.setRowHeight(28);
         productTable.setShowGrid(true);
-        productTable.setGridColor(Color.LIGHT_GRAY);
-        productTable.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 14));
-        productTable.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        productTable.setGridColor(Theme.GRID_COLOR);
+        productTable.getTableHeader().setFont(Theme.TABLE_HEADER_FONT);
+        productTable.setFont(Theme.TABLE_FONT);
+
+        productTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        productTable.setSelectionBackground(Theme.PRIMARY_COLOR);
+        productTable.setSelectionForeground(Theme.CONTRAST_COLOR);
+        productTable.setDefaultEditor(Object.class, null); // Disable editing
+        productTable.setAutoCreateRowSorter(true);
+        productTable.setFillsViewportHeight(true);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < productTable.getColumnCount(); i++) {
+            productTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
         productTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-
                 int row = productTable.getSelectedRow();
                 int id = (int) productTable.getValueAt(row, 0);
                 var product = productService.getById(id);
