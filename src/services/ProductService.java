@@ -13,7 +13,6 @@ public class ProductService {
         this.db = db;
     }
 
-    // CREATE
     public void save(ProductModel product) {
         String query = "INSERT INTO product (name, price_in_cents, quantity) VALUES (?, ?, ?)";
 
@@ -28,6 +27,31 @@ public class ProductService {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao salvar produto", e);
         }
+    }
+
+    public ProductModel getById(int id) {
+        String query = "SELECT * FROM product WHERE id = ?";
+        ProductModel product = null;
+
+        try (Connection conn = db.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                product = new ProductModel();
+                product.setId(rs.getInt("id"));
+                product.setName(rs.getString("name"));
+                product.setPrice_in_cents(rs.getInt("price_in_cents"));
+                product.setQuantity(rs.getInt("quantity"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar produto", e);
+        }
+
+        return product;
     }
 
     public List<ProductModel> get() {
