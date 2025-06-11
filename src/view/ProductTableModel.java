@@ -7,7 +7,7 @@ import util.money;
 
 public class ProductTableModel extends AbstractTableModel {
     private List<ProductModel> products;
-    private final String[] columns = {"ID", "Nome", "Preço (centavos)", "Quantidade"};
+    private final String[] columns = {"ID", "Nome", "Preço", "Quantidade"};
 
     public ProductTableModel(List<ProductModel> products) {
         this.products = products != null ? products : List.of();
