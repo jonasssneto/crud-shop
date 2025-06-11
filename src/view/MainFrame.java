@@ -54,11 +54,26 @@ public class MainFrame extends JFrame {
         productTable.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 14));
         productTable.setFont(new Font("SansSerif", Font.PLAIN, 13));
 
+        productTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+
+                int row = productTable.getSelectedRow();
+                int id = (int) productTable.getValueAt(row, 0);
+                var product = productService.getById(id);
+                if (product != null) {
+                    ProductDetailDialog dialog = new ProductDetailDialog(MainFrame.this, productService, product);
+                    dialog.setVisible(true);
+                    if (dialog.isUpdated() || dialog.isDeleted()) {
+                        ((ProductTableModel) productTable.getModel()).setProducts(productService.get());
+                    }
+                }
+            }
+        });
+
         JScrollPane scrollPane = new JScrollPane(productTable);
         scrollPane.setBorder(BorderFactory.createCompoundBorder(
-            new EmptyBorder(15, 25, 15, 25),
-            BorderFactory.createLineBorder(Color.GRAY, 1)
-        ));
+                new EmptyBorder(15, 25, 15, 25),
+                BorderFactory.createLineBorder(Color.GRAY, 1)));
         add(scrollPane, BorderLayout.CENTER);
     }
 }
