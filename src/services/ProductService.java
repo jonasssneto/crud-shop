@@ -1,11 +1,10 @@
 package services;
 
-import util.Database;
-import model.ProductModel;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import model.ProductModel;
+import util.Database;
 
 public class ProductService {
     private final Database db;
@@ -16,17 +15,14 @@ public class ProductService {
 
     // CREATE
     public void save(ProductModel product) {
-        String query = "INSERT INTO product (id, name, price_in_cents, quantity) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO product (name, price_in_cents, quantity) VALUES (?, ?, ?)";
 
         try (Connection conn = db.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
 
-            ps.setInt(1, product.getId());
-            ps.setString(2, product.getName());
-            ps.setInt(3, product.getPrice_in_cents());
-            ps.setInt(4, product.getQuantity());
-
-            System.out.printf("Inserting product with id %d\n", product.getId());
+            ps.setString(1, product.getName());
+            ps.setInt(2, product.getPrice_in_cents());
+            ps.setInt(3, product.getQuantity());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -39,8 +35,8 @@ public class ProductService {
         List<ProductModel> products = new ArrayList<>();
 
         try (Connection conn = db.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(query);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 ProductModel product = new ProductModel();
@@ -62,7 +58,7 @@ public class ProductService {
         String query = "UPDATE product SET name = ?, price_in_cents = ?, quantity = ? WHERE id = ?";
 
         try (Connection conn = db.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, product.getName());
             ps.setInt(2, product.getPrice_in_cents());
@@ -83,7 +79,7 @@ public class ProductService {
         String query = "DELETE FROM product WHERE id = ?";
 
         try (Connection conn = db.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setInt(1, id);
             int rowsAffected = ps.executeUpdate();
