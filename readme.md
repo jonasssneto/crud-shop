@@ -5,6 +5,9 @@
 - Christyan Fernandes
 - Anna Caronlina
 - Lucas Dombrowski
+- Guilherme Vicente Costa
+- Gabriel Teixeira
+- Laura Pacheco
 
 ## Projeto
 CRUD em Java usando Swing, MVC e MySQL
