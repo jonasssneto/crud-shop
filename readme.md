@@ -28,6 +28,7 @@ Tela principal aonde é possível visualizar os produtos cadastrados, criar novo
 3. Crie um arquivo `.env` na raiz, e copie o conteúdo do arquivo `.env.example` para ele
 4. Configure a URL do banco de dados no arquivo `.env`
 5. Execute o projeto
+6. Faça login com o usuário padrão `admin` e senha `admin`
 
 ## Dependências 
 - Java 21
